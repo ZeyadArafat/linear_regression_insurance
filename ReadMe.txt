@@ -51,5 +51,3 @@ How to run
 1. Open `linear-regression.ipynb` in Jupyter or VS Code and run the cells sequentially.
 2. Ensure `insurance.csv` is in the same folder as the notebook.
 3. Install dependencies as shown above.
-
-Author: CS-229 exercise notebook
