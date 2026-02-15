@@ -7,11 +7,12 @@ Linear Regression — Insurance Charges
 Overview
 --------
 This repository contains a Jupyter Notebook that implements a simple linear regression model (from scratch)
-+to predict normalized insurance charges using the provided `insurance.csv` dataset.
+to predict insurance `charges` using the provided `insurance.csv` dataset. For training the notebook applies
+z-score standardization (mean centering and scaling by standard deviation) to numeric features and the target.
 
 Files
 -----
-- linear-regression.ipynb — Notebook with the full workflow: data loading, preprocessing, model training (gradient descent), prediction, and final evaluation.
+- linear-regression.ipynb — Notebook with the full workflow: data loading, preprocessing, model training (gradient descent), prediction, and a final scatter plot of predicted vs actual charges.
 - insurance.csv — Dataset used by the notebook.
 
 Dependencies
@@ -30,21 +31,21 @@ pip install numpy pandas matplotlib
 Notebook workflow (high level)
 ------------------------------
 1. Load `insurance.csv` with pandas and inspect the data.
-2. Create binary columns for `sex` (`is_male`, `is_female`) and drop the original column.
-3. Map `smoker` to `is_smoker` (1=yes, 0=no) and drop the original column.
-4. One-hot encode `region` into separate region columns and drop the original column.
-5. Normalize `age`, `bmi`, `children`, and `charges` by dividing by their mean.
-6. Split dataframe into features (X) and target (`charges`), add a bias column, and initialize `weights` to zeros.
-7. Train weights using batch gradient descent:
-   - learning rate used in the notebook: 5e-7
+2. Map `sex` to a numeric `gender` column (`male`=1, `female`=0) and map `smoker` to `is_smoker` (1=yes, 0=no); drop the original columns.
+3. One-hot encode `region` into separate region columns and drop the original `region` column.
+4. Standardize (z-score) the numeric columns: `age`, `bmi`, `children`, and also standardize `charges` (target) for training.
+5. Split the DataFrame into features (X) and target (`charges`).
+6. Add a bias column to X and initialize `weights` to zeros.
+7. Train weights using a manual batch gradient descent implementation:
+   - learning rate used in the notebook: 1e-4 (0.0001)
    - iterations: 10,000
-8. Compute predictions, report mean squared error (MSE), and inspect results.
+   - note: the notebook's update uses the summed gradient (`gradient.sum()`) per weight (no explicit averaging by N).
+8. Compute predictions, report mean squared error (MSE) on the (standardized) target, and plot predicted vs actual charges.
 
 Notes
 -------------------
-- The notebook uses a manual gradient descent implementation and simple mean normalization; consider standard scaling or a train/test split for more robust evaluation.
-- You can experiment with learning rate, number of iterations, or alternative feature scaling.
-- Compare the from-scratch implementation with `sklearn.linear_model.LinearRegression` for reference.
+- The notebook applies z-score standardization (mean subtraction, division by std) for `age`, `bmi`, `children`, and `charges`.
+- Add a train/test split to assess generalization performance.
 
 How to run
 ----------
